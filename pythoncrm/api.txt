@@ -1,0 +1,345 @@
+
+登录
+    url:userinfo/manager
+	type:post
+	参数：   username ##用户名
+	        userpwd ##密码
+
+    返回值： result  True
+           	data  {"token": token}##返回token值
+            	error  ""
+
+
+
+
+管理项目经理
+	添加项目经理
+	url:userinfo/manager
+	type:post
+	参数：   manname 项目经理姓名
+            	tel 项目经理电话
+            	email EAMIL
+            	centerid 中心id
+            	leaderid 上级领导id
+    	返回值： {"result": true,
+    	        "error": "",
+    	        "data": [
+    	                    {"id": 4, "username": "harry"}
+    	                 ]
+    	          }
+
+    获取领导
+	url:daily/aboutleader
+	type:get
+	参数：
+	    add:1#        (1, 'manager'),
+                      (2, 'harry'),
+                      (3, 'feng'),
+                      (4, 'teacher'),
+                      (5, 'master'),
+
+    	返回值： result  True
+           	data  {"manname": manname}##项目经理名称
+            	error  ""
+
+
+	获取项目经理列表
+	url:userinfo/manager
+	type:get
+	参数：  
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+				"id": 1,##经理id
+				"username": "a",##经理名
+				"role": 1,##经理角色
+				"tel": 1212,##经理电话
+				"uemail": "as@qw.com",##经理email
+				"center": {
+					"id": 3,##中心id
+					"cname": "python中心",##中心名称
+					"ads": "北京市海淀区",##中心地址
+					"leader": "1",##领导id
+					"tel": 21212121##联系电话
+				},
+				"leader": 1
+			}]
+		}
+
+
+	删除项目经理
+	url:userinfo/manager
+	type:delete
+	参数：   managerid 项目经理id
+            
+    	返回值： result  True
+           	data  "删除成功"
+            	error  ""
+
+
+	修改项目经理
+	url:userinfo/manager
+	type:post
+	参数：   managerid 项目经理id
+            	tel 项目经理电话
+            	email EAMIL
+            	centerid 中心id
+            	leaderid 上级领导id
+    	返回值： {"result" : True
+           	"data" : "修改成功"
+            	"error":  ""}
+
+
+
+管理中心
+	添加中心
+	url:userinfo/center
+	type:post
+	参数：   cname 中心名称
+            	ads 中心地址
+            	leader 领导id
+            	tel 中心电话
+
+    	返回值： result  True
+           	    data  {"msg": "success"}##成功
+            	error  ""
+
+
+	获取中心
+	url:userinfo/center
+	type:get
+	参数：
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": "center": {
+					"id": 3,##中心id
+					"cname": "python中心",##中心名称
+					"ads": "北京市海淀区",##中心地址
+					"leader": "1",##领导id
+					"tel": 21212121##联系电话
+				},
+		}
+
+
+管理班级
+	添加班级
+	url:userinfo/manager
+	type:post
+	参数：   classno 班级名称
+            	managerid 项目经理id
+            	centerid 中心id
+
+    	返回值： result  True
+           	data  {"msg": "success"}##成功
+            	error  ""
+
+
+	获取班级列表
+	url:userinfo/classes
+	type:get
+	参数：
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+				"id": 1,##经理id
+				"username": "a",##经理名
+				"role": 1,##经理角色
+				"tel": 1212,##经理电话
+				"uemail": "as@qw.com",##经理email
+				"center": {
+					"id": 3,##中心id
+					"cname": "python中心",##中心名称
+					"ads": "北京市海淀区",##中心地址
+					"leader": "1",##领导id
+					"tel": 21212121##联系电话
+				},
+				"leader": 1
+			}]
+		}
+
+
+	删除班级
+	url:userinfo/classes
+	type:delete
+	参数：   classid 班级id
+
+    	返回值： result  True
+           	data  "删除成功"
+            	error  ""
+
+
+
+
+日报
+    获取日报基础
+	url:/daily/dailydetail/
+	type:post
+	参数：
+	    managerid:1  ##项目经理id
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                    center:"python中心"##中心
+                    classes:"AID1212"##班级
+                    manager:"a"##项目经理名
+                    master:"masterzhao"##班主任名
+                    teacher:"techerwang"##讲师名
+			}]
+		}
+
+
+
+投诉
+    提交投诉
+    url:/complaint/pcomplaint/
+	type:post
+	参数：
+	    teacherid:1  ##讲师id
+	    coclassify:1  ##投诉分类
+	    detail:1  ##投诉内容
+	    tel:1  ##电话
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                    msg:"信息已提交"##结果
+                    orderid:"1212"##投诉单号
+
+			}]
+		}
+
+    查看投诉
+    url:/complaint/pcomplaint/
+	type:get
+	参数：
+	    orderid:1  ##投诉单号
+
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                    列表
+
+			}]
+		}
+
+	取消投诉
+    url:/complaint/pcomplaint/
+	type:delete
+	参数：
+	    orderid:1  ##投诉单号
+
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                    msg:"取消成功"##结果
+
+			}]
+		}
+
+
+harry查看投诉
+
+    查看列表
+    url:/complaint/mcomplaint/
+	type:get
+	参数：
+
+
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                    msg:"取消成功"##结果
+
+			}]
+		}
+
+    查看单条
+    url:/complaint/mcomplaint/
+	type:get
+	参数：
+	    orderid:1  ##投诉单号
+
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                   teacherid:1  ##讲师id
+	                coclassify:1  ##投诉分类
+	                detail:1  ##投诉内容
+	                tel:1  ##电话
+
+			}]
+		}
+
+    解决投诉
+    url:/complaint/mcomplaint/
+	type:delete
+	参数：
+        orderid:1  ##投诉单号
+
+    	返回值： {
+			"error": "",
+			"result": true,
+			"data": [{
+                    msg:"取消成功"##结果
+
+			}]
+		}
+
+
+    学生登录
+    url:studrent/stulogin
+	type:post
+	参数：   stuname ##用户名
+	        stupwd ##密码
+
+    返回值： result  True
+           	data  {"token": token}##返回token值
+            	error  ""
+
+    添加学生
+    url:studrent/stuedit
+	type:post
+	参数：   uname ##登录名
+	        sname ##用户名
+	        classesid ##班级id
+	        sex ##性别
+	        age ##年龄
+	        edu ##学历
+	        university ##毕业院校
+	        major ##专业
+	        workbg ##工作经验
+	        mobiled ##手机
+	        QQ ##QQ
+	        remark ##备注
+	        nyremark ##ny备注
+
+    返回值： result  True
+           	"data": [{
+                    列表
+
+			}]
+            	error  ""
+
+
+    修改学生
+    url:studrent/stuedit
+	type:put
+	参数：   id ##学生id
+	        sname ##用户名
+
+	        mobiled ##手机
+	        QQ ##QQ
+	        remark ##备注
+
+
+    返回值： result  True
+           	"data": {"msg": "success"}
+            	error  ""

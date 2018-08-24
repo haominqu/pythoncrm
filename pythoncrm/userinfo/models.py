@@ -2,10 +2,14 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from analysis.readdata import *
 # Create your models here.
 
 
 # user_info is the user table,it is include manage,harry,teacher,master,Mr.Feng role.
+
+
+
 
 ROLE = (
         (1, 'manager'),
@@ -47,15 +51,26 @@ WORKBG = (
 )
 
 
+
+
+
+
+
 class Center(models.Model):
     cname = models.CharField('中心名称', max_length=100, null=False)
     ads = models.CharField('中心地址', max_length=200, null=False)
     leader = models.CharField('中心主任', max_length=200, null=False)
     tel = models.CharField('中心电话', max_length=200,null=False)
-    province
-    city
-    area
+    province = models.CharField('省', max_length=200,null=False,default="86")
+    city = models.CharField('市', max_length=200,null=False,default="86")
+    area = models.CharField('区', max_length=200,null=False,default="86")
+    street = models.CharField('街道', max_length=200,null=False,default="86")
     delete = models.BooleanField('删除', default=False)
+
+    def get_local(self):
+        data = localjson(self.province,self.city,self.area,self.street)
+        return data
+
 
     def __str__(self):
         return self.cname
@@ -75,6 +90,7 @@ class UserInfo(models.Model):
     lastlogin = models.CharField('最后登陆时间',max_length=100, null=False)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name']
+
 
     def __str__(self):
         return self.username

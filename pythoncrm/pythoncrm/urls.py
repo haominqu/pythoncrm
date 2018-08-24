@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^front/', include('front.urls')),
     url(r'^complaint/', include('complaint.urls')),
     url(r'^student/', include('students.urls')),
+    url(r'^analysis/', include('analysis.urls')),
     url(r'^test/', TemplateView.as_view(template_name="test.html"), name='test'),
 ]
 

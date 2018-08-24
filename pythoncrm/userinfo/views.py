@@ -105,12 +105,12 @@ class UserLogin(APIView):
             user = UserInfo.objects.get(loginname=username)
             userpwd = check_password(userpwda,user.userpwd)
             if userpwd:
-                user.lastlogin = lastlogin
-                user.save()
+
                 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
                 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
                 payload = jwt_payload_handler(user)
                 payload['role'] = user.role
+                payload['lastlogin'] = user.lastlogin
                 payload['center_id'] = user.center_id
                 data['headimg'] = "http://172.40.70.165:8000/" + str(user.head)
                 # data['headimg'] = "http://172.164.1.68:8000/"+str(user.head)
@@ -128,6 +128,8 @@ class UserLogin(APIView):
                 elif user.role == 7:
                     data['url'] = "eduindex"
                 data['token'] = token
+                user.lastlogin = lastlogin
+                user.save()
             else:
                 result = False
                 error = "用户名密码错误"
@@ -251,11 +253,15 @@ class Centers(APIView):
         ads = request.POST.get("ads")
         leader = request.POST.get("leader")
         tel = request.POST.get("tel")
+        province = request.POST.get("province")
+        city = request.POST.get("city")
+        area = request.POST.get("area")
+        street = request.POST.get("street")
         result = True
         data = {"msg": "success"}
         error = ""
         try:
-            Center.objects.create(cname=cname, ads=ads, leader=leader, tel=tel)
+            Center.objects.create(cname=cname, ads=ads, leader=leader, tel=tel, province=province, city=city, area=area, street=street)
         except ObjectDoesNotExist as e:
             logging.warning(e)
             result = False

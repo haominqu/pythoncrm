@@ -50,6 +50,17 @@ WORKBG = (
         (10, '半年'),
 )
 
+DIRECTION = (
+        (0, ''),
+        (1, '爬虫'),
+        (2, '数据分析'),
+        (3, '人工智能'),
+        (4, '量化交易'),
+        (5, '嵌入式'),
+        (6, '前端'),
+        (7, 'web'),
+
+)
 
 
 
@@ -127,7 +138,9 @@ class StudentInfo(models.Model):
     nyremark = models.CharField('ny备注', max_length=100, null=False, default='无')
     classes = models.ForeignKey(Classes, verbose_name='班级')
     employ = models.BooleanField("就业", default=False)
-    selery = models.IntegerField("薪资", default=0)
+    direction = models.IntegerField("就业方向", choices=DIRECTION, default=1)
+    company = models.CharField('就业公司', max_length=50, null=True)
+    salary = models.IntegerField("薪资", default=0)
     leschool = models.BooleanField('休学', default=False)
     delete = models.BooleanField('删除', default=False)
 
@@ -153,6 +166,24 @@ class StudentInfo(models.Model):
             return u'硕士'
         elif self.edu == 6:
             return u'博士'
+
+    def get_diraction(self):
+        if self.direction == 0:
+            return u''
+        elif self.direction == 1:
+            return u'爬虫'
+        elif self.direction == 2:
+            return u'数据分析'
+        elif self.direction == 3:
+            return u'人工智能'
+        elif self.direction == 4:
+            return u'量化交易'
+        elif self.direction == 5:
+            return u'嵌入式'
+        elif self.direction == 6:
+            return u'前端'
+        elif self.direction == 7:
+            return u'web'
 
     def get_workbg(self):
         if self.workbg == 0:

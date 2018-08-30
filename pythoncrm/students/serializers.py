@@ -32,5 +32,25 @@ class StudentListSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = StudentInfo
-		fields = ('id','username','sname','sex','age','edu','university','major','workbg','mobile','QQ','remark','classes','employ','selery')
+		fields = ('id','username','sname','sex','age','edu','university','major','workbg','mobile','QQ','remark','classes','employ','salary')
 
+
+
+class StudEmployListSerializer(serializers.ModelSerializer):
+
+	classes = serializers.SerializerMethodField('class_field')
+	sex = serializers.SerializerMethodField('sex_field')
+	direction = serializers.SerializerMethodField('direction_field')
+
+	def class_field(self,obj):
+		return  obj.get_classes()
+
+	def direction_field(self,obj):
+		return obj.get_diraction()
+
+	def sex_field(self,obj):
+		return obj.get_sex()
+
+	class Meta:
+		model = StudentInfo
+		fields = ('id','username','sname','sex','mobile','remark','classes','employ','salary','direction','company')

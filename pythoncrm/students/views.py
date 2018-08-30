@@ -11,11 +11,17 @@ from django.http import JsonResponse,request
 from daily.models import *
 from .serializers import *
 from django.db.models import F
+from .permissions import *
+
 
 auth_check = "pythoncrm"
 
 
 class Student(APIView):
+
+    permission_classes = (
+        StudentLimit,
+    )
 
     def post(self, request):
         uname = request.POST.get('mobile')
@@ -105,6 +111,10 @@ class Student(APIView):
 
 class StudStatus(APIView):
 
+    permission_classes = (
+        StudentLimit,
+    )
+
     def post(self, request):
         stuid = request.POST.get("stuid")
         classesid = request.POST.get("classid")
@@ -166,6 +176,10 @@ class StudStatus(APIView):
 
 class StuClass(APIView):
 
+    permission_classes = (
+        StudentLimit,
+    )
+
     def get(self, request):
         token = request.META.get("HTTP_AUTHORIZATION").split(' ')
         a = jwt_decode_handler(token[2])
@@ -181,6 +195,10 @@ class StuClass(APIView):
 
 
 class StudLogin(APIView):
+
+    permission_classes = (
+        StudentLimit,
+    )
 
     def post(self, request):
         stuname = request.POST.get("stuname")
@@ -218,5 +236,51 @@ class StudLogin(APIView):
 
 class StudentAnalysis(APIView):
 
+    permission_classes = (
+        StudentLimit,
+    )
+
     def post(self):
         stuname = request.POST.get("stuname")
+        pass
+
+
+class StuEmploy(APIView):
+
+    permission_classes = (
+        MasterPermission,
+    )
+
+    def post(self, request):
+        stuid = request.POST.get("stuid")
+        direction = request.POST.get("studire")
+        selery = request.POST.get("stuselery")
+        company = request.POST.get("stucompany")
+        try:
+            StudentInfo.objects.filter(id=stuid,delete=False).update(employ=True, direction=direction, selery=int(selery), company=company)
+            data = {"msg": "success"}
+        except ObjectDoesNotExist as e:
+            logging.warning(e)
+            result = False
+            error = e
+            print (e, "======")
+        return JsonResponse({"result": result, "data": data, "error": error})
+
+
+    def get(self, request):
+        classesid = request.GET.get('classid')
+        result = True
+        error = ""
+        try:
+            studrent = StudentInfo.objects.filter(classes_id=classesid, leschool=False)
+        except ObjectDoesNotExist as e:
+            logging.warning(e)
+            result = False
+            error = e
+        serializer = StudEmployListSerializer(studrent, many=True)
+        data = serializer.data
+
+        if len(studrent) > 0:
+            classname = studrent[0].classes.classname
+            return JsonResponse({"result": result, "classname": classname, "data": data, "error": error})
+        return JsonResponse({"result": result, "classname": "", "data": data, "error": error})

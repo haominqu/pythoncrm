@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^stuedit', Student.as_view(), name='stu_edit'),
     url(r'^stuclass', StuClass.as_view(), name='stu_class'),
     url(r'^stustatus', StudStatus.as_view(), name='stu_status'),
+    url(r'^stuemploy', StuEmploy.as_view(), name='stu_employ'),
     # url(r'^test/', TemplateView.as_view(template_name="test.html"), name='test'),
 ]

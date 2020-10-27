@@ -8,7 +8,7 @@ checkbox-support==0.22
 command-not-found==0.3
 configparser==3.5.0
 crypto==1.4.1
-cryptography==1.2.3
+cryptography==3.2
 cytoolz==0.9.0
 defer==1.0.6
 Django==1.8

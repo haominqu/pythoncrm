@@ -31,7 +31,7 @@ language-selector==0.1
 louis==2.6.4
 lru-dict==1.1.6
 lxml==3.5.0
-Mako==1.0.3
+Mako==1.2.2
 Markdown==2.6.11
 MarkupSafe==0.23
 Naked==0.1.31
